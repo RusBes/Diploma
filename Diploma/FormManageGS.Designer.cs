@@ -51,7 +51,6 @@
             this.dgvGS.Name = "dgvGS";
             this.dgvGS.Size = new System.Drawing.Size(308, 299);
             this.dgvGS.TabIndex = 1;
-            this.dgvGS.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGS_RowLeave);
             // 
             // groupboxAZS
             // 
@@ -107,12 +106,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1126, 348);
+            this.ClientSize = new System.Drawing.Size(1126, 349);
             this.Controls.Add(this.groupboxStaff);
             this.Controls.Add(this.groupboxColumns);
             this.Controls.Add(this.groupboxAZS);
             this.Name = "FormManageGS";
             this.Text = "Управління АЗС";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormManageGS_FormClosing);
             this.Load += new System.EventHandler(this.FormManageGS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGS)).EndInit();
             this.groupboxAZS.ResumeLayout(false);

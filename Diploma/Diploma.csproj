@@ -74,6 +74,7 @@
     <Compile Include="FormManageGS.Designer.cs">
       <DependentUpon>FormManageGS.cs</DependentUpon>
     </Compile>
+    <Compile Include="GasStationManagement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

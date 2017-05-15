@@ -18,6 +18,7 @@ namespace Diploma
             InitializeComponent();
         }
 
+        public List<GasStation> GS = new List<GasStation>();
         
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -36,8 +37,14 @@ namespace Diploma
 
         private void butManageGS_Click(object sender, EventArgs e)
         {
-            FormManageGS fManageGS = new FormManageGS();
+            FormManageGS fManageGS = new FormManageGS(GS);
             fManageGS.Show();
+
+        }
+
+        private void butCarCome_Click(object sender, EventArgs e)
+        {
+            GlobalConnection.UpdateGasStation("new street", "new brand", 0);
         }
     }
 }
