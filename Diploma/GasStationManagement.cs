@@ -10,7 +10,7 @@ namespace Diploma
     {
         public int ID { get; set; }
         public List<GasDeliver> GasDeliverys { get; set; }
-        public List<Employee> Employees { get; set; }
+        //public List<Employee> Employees { get; set; }
         public string Location { get; set; }
         public string Brand { get; set; }
 
@@ -26,27 +26,27 @@ namespace Diploma
 
     public class GasDeliver
     {
-        public GasDeliverType Type { get; private set; }
+        public string Type { get; private set; }
 
         public GasDeliver() { }
-        public GasDeliver(GasDeliverType type)
+        public GasDeliver(string type)
         {
             Type = type;
         }
     }
 
-    public class Employee
-    {
-        public string Name { get; set; }
-        public EmployeePosition Position { get; set; }
+    //public class Employee
+    //{
+    //    public string Name { get; set; }
+    //    public string Position { get; set; }
 
-        public Employee() { }
-        public Employee(string name, EmployeePosition pos)
-        {
-            Name = name;
-            Position = pos;
-        }
-    }
+    //    public Employee() { }
+    //    public Employee(string name, string pos)
+    //    {
+    //        Name = name;
+    //        Position = pos;
+    //    }
+    //}
 
     public enum GasDeliverType
     {

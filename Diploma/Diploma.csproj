@@ -50,6 +50,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,11 +69,35 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAddGasDeliver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddGasDeliver.Designer.cs">
+      <DependentUpon>FormAddGasDeliver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCharact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCharact.designer.cs">
+      <DependentUpon>FormCharact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFormAddGS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFormAddGS.Designer.cs">
+      <DependentUpon>FormFormAddGS.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormManageGS.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormManageGS.Designer.cs">
       <DependentUpon>FormManageGS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormModeling.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModeling.Designer.cs">
+      <DependentUpon>FormModeling.cs</DependentUpon>
     </Compile>
     <Compile Include="GasStationManagement.cs" />
     <Compile Include="Program.cs" />
@@ -80,8 +105,20 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormAddGasDeliver.resx">
+      <DependentUpon>FormAddGasDeliver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCharact.resx">
+      <DependentUpon>FormCharact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFormAddGS.resx">
+      <DependentUpon>FormFormAddGS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormManageGS.resx">
       <DependentUpon>FormManageGS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormModeling.resx">
+      <DependentUpon>FormModeling.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -117,6 +154,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -52,6 +52,27 @@ namespace Diploma
             SqlCommand cmd = new SqlCommand(query, Connection);
             Reader = cmd.ExecuteReader();
         }
+        public static List<object[]> ExecReaderToList(string query)
+        {
+            List<object[]> res = new List<object[]>();
+            SqlCommand cmd = new SqlCommand(query, Connection);
+            Reader = cmd.ExecuteReader();
+
+            if (Reader.HasRows)
+            {
+                for (int i = 0; Reader.Read(); i++)
+                {
+                    res.Add(new object[Reader.FieldCount]);
+                    for (int j = 0; j < Reader.FieldCount; j++)
+                    {
+                        res[i][j] = Reader.GetValue(j);
+                    }
+                }
+            }
+
+            Reader.Close();
+            return res;
+        }
         public static void CloseReader()
         {
             Reader.Close();
@@ -71,7 +92,7 @@ namespace Diploma
             cmd.Parameters.Add(par3);
             return cmd.ExecuteNonQuery();
         }
-        public static int UpdateGasDeliver(GasDeliverType type, int GSID, int id)
+        public static int UpdateGasDeliver(string type, int GSID, int id)
         {
             string query = "update gas_deliver set type = @type, gas_station_id = @gas_station_id where id = @id";
             SqlParameter par1 = new SqlParameter("@type", SqlDbType.NVarChar);
@@ -86,7 +107,7 @@ namespace Diploma
             cmd.Parameters.Add(par3);
             return cmd.ExecuteNonQuery();
         }
-        public static int UpdateStaff(string fullName, EmployeePosition position, int GSID, int id)
+        public static int UpdateStaff(string fullName, string position, int GSID, int id)
         {
             string query = "update staff set full_name = @full_name, position = @position, gas_station_id = @gas_station_id where id = @id";
             SqlParameter par1 = new SqlParameter("@full_name", SqlDbType.NVarChar);
@@ -116,7 +137,7 @@ namespace Diploma
             cmd.Parameters.Add(par2);
             return cmd.ExecuteNonQuery();
         }
-        public static int InsertGasDeliver(GasDeliverType type, int GSID)
+        public static int InsertGasDeliver(string type, int GSID)
         {
             string query = "insert into gas_deliver(type, gas_station_id) values(@type, @gas_station_id)";
             SqlParameter par1 = new SqlParameter("@type", SqlDbType.NVarChar);
@@ -128,7 +149,7 @@ namespace Diploma
             cmd.Parameters.Add(par2);
             return cmd.ExecuteNonQuery();
         }
-        public static int InsertStaff(string fullName, EmployeePosition position, int GSID)
+        public static int InsertStaff(string fullName, string position, int GSID)
         {
             string query = "insert into staff(full_name, position, gas_station_id) values(@full_name, @position, @gas_station_id)";
             SqlParameter par1 = new SqlParameter("@full_name", SqlDbType.NVarChar);

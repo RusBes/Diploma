@@ -19,7 +19,12 @@ namespace Diploma
         }
 
         public List<GasStation> GS = new List<GasStation>();
-        
+        public static GasStation GasStation;
+
+        private void SetLabelGS(string text)
+        {
+            labelGS.Text = "" + text;
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -34,17 +39,26 @@ namespace Diploma
         {
             GlobalConnection.Connection.Close();
         }
-
         private void butManageGS_Click(object sender, EventArgs e)
         {
-            FormManageGS fManageGS = new FormManageGS(GS);
-            fManageGS.Show();
+            FormManageGS fManageGS = new FormManageGS(ref GasStation);
+            fManageGS.ShowDialog();
+
+            SetLabelGS(GasStation.Location + ", " + GasStation.Brand);
+        }
+        private void butCarCome_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void butCarCome_Click(object sender, EventArgs e)
+        private void butCarLeave_Click(object sender, EventArgs e)
         {
-            GlobalConnection.UpdateGasStation("new street", "new brand", 0);
+
+        }
+
+        private void butModeling_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
