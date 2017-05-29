@@ -138,6 +138,17 @@ namespace Diploma
             }
             return -1;
         }
+        private void SelectGS(int rowInd)
+        {
+            string GSid = dgvGS.Rows[rowInd].Cells[0].Value.ToString();
+            string selectGasDelivers = "select * from gas_deliver where gas_deliver.gas_station_id = " + GSid;
+            GlobalConnection.ExecReader(selectGasDelivers);
+            FillDGVFromReader(dgvGasDeliveries);
+            GlobalConnection.CloseReader();
+
+            selectedGSID = Convert.ToInt32(GSid);
+            HighlightSelectedGS();
+        }
         private GasStation GetSelectedGasStation()
         {
             int rowNum = GetRowNumFromGSID();
@@ -151,15 +162,8 @@ namespace Diploma
             List<object[]> tmpGDList = GlobalConnection.ExecReaderToList("select * from gas_deliver where gas_deliver.gas_station_id = " + selectedGSID);
             for (int i = 0; i < tmpGDList.Count; i++)
             {
-                GDList.Add(new GasDeliver(tmpGDList[i][1].ToString())); // 0 - id, 1 - type, 2 - gas_station_id
+                GDList.Add(new GasDeliver(Convert.ToInt32(tmpGDList[i][0]), tmpGDList[i][1].ToString())); // 0 - id, 1 - type, 2 - gas_station_id
             }
-
-            //List<Employee> employeeList = new List<Employee>();
-            //List<object[]> tmpEmployeeList = GlobalConnection.ExecReaderToList("select * from staff where staff.gas_station_id = " + selectedGSID);
-            //for (int i = 0; i < tmpEmployeeList.Count; i++)
-            //{
-            //    employeeList.Add(new Employee(tmpEmployeeList[i][1].ToString(), tmpEmployeeList[i][2].ToString())); // 0 - id, 1 - name, 2 - position, 3 - gas_station_id
-            //}
 
             GS.GasDeliverys = GDList;
             //GS.Employees = employeeList;
@@ -237,45 +241,9 @@ namespace Diploma
         //}
         private void DgvGS_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            string GSid;
-            GSid = dgvGS.Rows[e.RowIndex].Cells[0].Value.ToString();
-            string selectGasDelivers = "select * from gas_deliver where gas_deliver.gas_station_id = " + GSid;
-            GlobalConnection.ExecReader(selectGasDelivers);
-            FillDGVFromReader(dgvGasDeliveries);
-            GlobalConnection.CloseReader();
-
-            //string selectStaff = "select * from staff where staff.gas_station_id = " + GSid;
-            //GlobalConnection.ExecReader(selectStaff);
-            //FillDGVFromReader(dgvStaff);
-            //GlobalConnection.CloseReader();
-
-            selectedGSID = Convert.ToInt32(dgvGS.Rows[e.RowIndex].Cells[0].Value);
-            HighlightSelectedGS();
+            SelectGS(e.RowIndex);
 
             groupboxColumns.Visible = true;
-        }
-        private void FormManageGS_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            GasStation = GetSelectedGasStation();
-
-            if (GasStation == null)
-            {
-                MessageBox.Show("Оберіть АЗС");
-                e.Cancel = true;
-                return;
-            }
-            MainForm.GasStation = GasStation;
-
-
-
-
-            //GS = new List<GasStation>();
-            //for (int i = 0; i < dgvGS.RowCount; i++)
-            //{
-            //    GS.Add(new GasStation(Convert.ToInt32(dgvGS.Rows[i].Cells[0].Value),
-            //        Convert.ToString(dgvGS.Rows[i].Cells[1].Value),
-            //        Convert.ToString(dgvGS.Rows[i].Cells[2].Value)));
-            //}
         }
         private void AddGS_Click(object sender, EventArgs e)
         {
@@ -287,10 +255,49 @@ namespace Diploma
             FormAddGasDeliver f = new FormAddGasDeliver(dgvGasDeliveries, selectedGSID);
             f.ShowDialog();
         }
-        //private void AddEmployee_Click(object sender, EventArgs e)
-        //{
-        //    FormAddEmployee f = new FormAddEmployee(dgvStaff, selectedGSID);
-        //    f.ShowDialog();
-        //}
+        private void dgvGS_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (selectedGSID == Convert.ToInt32(e.Row.Cells[0].Value))  // if deleteing gs equal selected gs then set selected gs to none
+            {
+                selectedGSID = -1;
+                //if (dgvGS.RowCount > 1)
+                //{
+                //    SelectGS(0);
+                //}
+                //else
+                //{
+                //    selectedGSID = -1;
+                //}
+            }
+            SqlCommand cmd = new SqlCommand("delete from gas_station where id = " + e.Row.Cells[0].Value, GlobalConnection.Connection);
+            cmd.ExecuteNonQuery();
+        }
+        private void dgvGasDeliveries_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("delete from gas_deliver where id = " + e.Row.Cells[0].Value, GlobalConnection.Connection);
+            cmd.ExecuteNonQuery();
+        }
+
+
+        private void FormManageGS_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GasStation = GetSelectedGasStation();
+
+            //if (GasStation.GasDeliverys.Count == 0)
+            //{
+            //    MessageBox.Show("На станції повинна бути хоча б одна колонка");
+            //    e.Cancel = true;
+            //    return;
+            //}
+            MainForm.GasStation = GasStation;
+
+            //GS = new List<GasStation>();
+            //for (int i = 0; i < dgvGS.RowCount; i++)
+            //{
+            //    GS.Add(new GasStation(Convert.ToInt32(dgvGS.Rows[i].Cells[0].Value),
+            //        Convert.ToString(dgvGS.Rows[i].Cells[1].Value),
+            //        Convert.ToString(dgvGS.Rows[i].Cells[2].Value)));
+            //}
+        }
     }
 }

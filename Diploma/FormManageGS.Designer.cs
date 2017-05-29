@@ -48,6 +48,7 @@
             this.dgvGS.Name = "dgvGS";
             this.dgvGS.Size = new System.Drawing.Size(308, 299);
             this.dgvGS.TabIndex = 1;
+            this.dgvGS.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvGS_UserDeletingRow);
             // 
             // groupboxAZS
             // 
@@ -79,6 +80,7 @@
             this.dgvGasDeliveries.Name = "dgvGasDeliveries";
             this.dgvGasDeliveries.Size = new System.Drawing.Size(263, 299);
             this.dgvGasDeliveries.TabIndex = 1;
+            this.dgvGasDeliveries.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvGasDeliveries_UserDeletingRow);
             // 
             // FormManageGS
             // 

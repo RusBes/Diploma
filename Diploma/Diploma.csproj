@@ -99,6 +99,12 @@
     <Compile Include="FormModeling.Designer.cs">
       <DependentUpon>FormModeling.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormShowServicing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormShowServicing.Designer.cs">
+      <DependentUpon>FormShowServicing.cs</DependentUpon>
+    </Compile>
     <Compile Include="GasStationManagement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormModeling.resx">
       <DependentUpon>FormModeling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormShowServicing.resx">
+      <DependentUpon>FormShowServicing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -24,15 +24,48 @@ namespace Diploma
 
     }
 
+    
     public class GasDeliver
     {
-        public string Type { get; private set; }
+        //public delegate void CarAddEventHandler();
+        //public event CarAddEventHandler CarAdd;
 
-        public GasDeliver() { }
-        public GasDeliver(string type)
+        public int ID { get; private set; }
+        public string Type { get; private set; }
+        public List<Car> Cars { get; }
+
+        public GasDeliver(int id) : this(id, "") { }
+        public GasDeliver(int id, string type)
         {
+            ID = id;
             Type = type;
+            Cars = new List<Car>();
         }
+
+        //public void AddCar(Car car)
+        //{
+        //    Cars.Add(car);
+        //    CarAdd();
+        //}
+    }
+
+    public class Car
+    {
+        public int ID { get; set; }
+        public string Type { get; set; }
+        public string Brand { get; set; }
+
+        public DateTime ComeTime { get; set; }
+        public DateTime LeaveTime { get; set; }
+        public GasDeliver GD { get; set; }
+
+        public Car(int id, string type, string brand)
+        {
+            ID = id;
+            Type = type;
+            Brand = brand;
+        }
+        public Car(int id) : this(id, "", "") { }
     }
 
     //public class Employee
