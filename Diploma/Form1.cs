@@ -14,9 +14,12 @@ namespace Diploma
 {
     public partial class MainForm : Form
     {
-        public List<GasStation> GS = new List<GasStation>();
+        //public List<GasStation> GS = new List<GasStation>();
         public static GasStation GasStation;
         private readonly string[] carTypes = new string[] { "Легкова", "Вантажна" };
+        /// <summary>
+        /// time when last gas station was selected
+        /// </summary>
         DateTime startTime = DateTime.Now;
 
         public MainForm()
@@ -73,9 +76,45 @@ namespace Diploma
 
             startTime = DateTime.Now;
         }
+        private void RefreshDgvServicing()
+        {
+            // select all servicing with cars only from selected GS
+            GlobalConnection.ExecReader("select * from servicing where gas_deliver_id in (select id from gas_deliver where gas_station_id = " + GasStation.ID + ")");
+
+            dgvServicing.Columns.Clear();
+            dgvServicing.Refresh();
+            for (int j = 0; j < GlobalConnection.Reader.FieldCount; j++)
+            {
+                dgvServicing.Columns.Add(GlobalConnection.Reader.GetName(j), GlobalConnection.Reader.GetName(j));
+            }
+            dgvServicing.Columns[3].Width = 150;        // columns for data must be wider
+            dgvServicing.Columns[4].Width = 150;
+            if (GlobalConnection.Reader.HasRows)
+            {
+                for (int i = 0; GlobalConnection.Reader.Read(); i++)
+                {
+                    dgvServicing.Rows.Add();
+                    for (int j = 0; j < GlobalConnection.Reader.FieldCount; j++)
+                    {
+                        dgvServicing.Rows[i].Cells[j].Value = GlobalConnection.Reader[j];
+                    }
+                }
+            }
+
+            GlobalConnection.Reader.Close();
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //List<Car> cars = new List<Car>();
+            //cars.Add(new Car(1));
+            //cars.Add(new Car(2));
+            //cars.Add(new Car(3));
+            //List<Car> tmp = cars.Where(car => car.LeaveTime != DateTime.MinValue).ToList();
+            //Car res = tmp.Find(car => car.LeaveTime == tmp.Min(c => c.LeaveTime));
+            ////Car cc = cars.Find(c => c.LeaveTime == cars.Min(car => car.LeaveTime));
+
+            //dgvServicing.Rows.Add();
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.IntegratedSecurity = true;
             builder.DataSource = "localhost";
@@ -119,15 +158,20 @@ namespace Diploma
                 GasStation.GasDeliverys = GDList;
 
                 GasStationSelectedEvent();
+
+                RefreshDgvServicing();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            GlobalConnection.Connection.Close();
+            if (GlobalConnection.Connection != null)
+            {
+                GlobalConnection.Connection.Close();
+            }
         }
         private void butManageGS_Click(object sender, EventArgs e)
         {
@@ -209,10 +253,10 @@ namespace Diploma
                 cbComeColumn.Text = "";
                 tbBrand.Text = "";
 
-
+                RefreshDgvServicing();
                 ////////////////
-                List<Car> cars = GetCars();
-                ReculcParametersAndCharacteristicsManual(cars);
+                //List<Car> cars = GetCars();
+                //ReculcParametersAndCharacteristicsManualAndShow(cars);
             }
             catch (Exception ex)
             {
@@ -472,7 +516,7 @@ namespace Diploma
         //    }
         //}
         Servicing s;
-        private void ReculcParametersAndCharacteristicsManual(List<Car> cars)
+        private void ReculcParametersAndCharacteristicsManualAndShow(List<Car> cars)
         {
             s = Start(cars, GasStation.GasDeliverys.Count);
 
@@ -531,7 +575,45 @@ namespace Diploma
 
             while (cars.Count > 0 || carsInGS.Count(car => car.LeaveTime != DateTime.MinValue) > 0)
             {
-                if (cars.Min(car => car.ComeTime) < carsInGS.Where(car => car.LeaveTime != DateTime.MinValue).Min(car => car.LeaveTime))    // проверяю что случилось раньше, прибытие или отбытие машины
+                if (FindFirstLeaveCar(carsInGS) == null)
+                {
+                    Car c = cars.Find(cc => cc.ComeTime == cars.Min(car => car.ComeTime));  // если пришла следующая то записываю ее (из неприбывших с наименьшим временем прибытия)
+                    cars.Remove(c);
+                    carsInGS.Add(c);
+
+                    timeMoments.Add(c.ComeTime);
+                    // culc queue
+                    List<int> busyGD = carsInGS.Select(car => car.GD.ID).Distinct().ToList();
+                    for (int i = 0; i < busyGD.Count; i++)
+                    {
+                        busyGD[i] = carsInGS.Count(car => car.GD.ID == busyGD[i]) - 1;   // считаю сколько машин в очереди на каждой из колонок (-1 чтобы не учитывать ту что обслуживается)
+                    }
+                    Queue.Add(busyGD.Sum());
+                    //
+                    Served.Add(Served.Last());
+                    DownTime.Add(busyGD.Count == n ? DownTime.Last() : DownTime.Last().Add(c.ComeTime - DownTime.Last()));
+                    NumberOfBusyChanels.Add(busyGD.Count);
+                }
+                else if (cars.Count == 0)
+                {
+                    Car c = FindFirstLeaveCar(carsInGS);
+                    carsInGS.Remove(c);
+
+                    timeMoments.Add(c.ComeTime);
+                    // culc queue
+                    List<int> busyGD = carsInGS.Select(car => car.GD.ID).Distinct().ToList();
+                    for (int i = 0; i < busyGD.Count; i++)
+                    {
+                        busyGD[i] = carsInGS.Count(car => car.GD.ID == busyGD[i]) - 1;   // ссчитаю сколько машин в очереди на каждой из колонок (-1 чтобы не учитывать ту что обслуживается)
+                    }
+                    Queue.Add(busyGD.Sum());
+                    //
+                    Served.Add(Served.Last() + 1);
+                    DownTime.Add(busyGD.Count == n ? DownTime.Last() : DownTime.Last().Add(c.LeaveTime - DownTime.Last()));
+                    //DownTime.Add(DownTime.Last());
+                    NumberOfBusyChanels.Add(busyGD.Count);
+                }
+                else if (cars.Min(car => car.ComeTime) < carsInGS.Where(car => car.LeaveTime != DateTime.MinValue).Min(car => car.LeaveTime))    // проверяю что случилось раньше, прибытие или отбытие машины
                 {
                     Car c = cars.Find(cc => cc.ComeTime == cars.Min(car => car.ComeTime));  // если пришла следующая то записываю ее (из неприбывших с наименьшим временем прибытия)
                     cars.Remove(c);
@@ -552,8 +634,10 @@ namespace Diploma
                 }
                 else
                 {
-                    Car c = carsInGS.Find(cc => cc.LeaveTime == carsInGS.Min(car => car.LeaveTime));
+                    Car c = FindFirstLeaveCar(carsInGS);
                     carsInGS.Remove(c);
+
+                    timeMoments.Add(c.ComeTime);
                     // culc queue
                     List<int> busyGD = carsInGS.Select(car => car.GD.ID).Distinct().ToList();
                     for (int i = 0; i < busyGD.Count; i++)
@@ -563,13 +647,36 @@ namespace Diploma
                     Queue.Add(busyGD.Sum());
                     //
                     Served.Add(Served.Last() + 1);
-                    DownTime.Add(busyGD.Count == n ? DownTime.Last() : DownTime.Last().Add(c.ComeTime - DownTime.Last()));
+                    DownTime.Add(busyGD.Count == n ? DownTime.Last() : DownTime.Last().Add(c.LeaveTime - DownTime.Last()));
                     //DownTime.Add(DownTime.Last());
                     NumberOfBusyChanels.Add(busyGD.Count);
                 }
             }
 
             return new Servicing() { TimeMoments = timeMoments, Served = Served, Queue = Queue, DownTime = DownTime, NumberOfBusyChanels = NumberOfBusyChanels };
+        }
+        Car FindFirstComeCar(List<Car> cars)
+        {
+            if (cars.Count == 0)
+            {
+                return null;
+            }
+            Car res = cars.Find(car => car.ComeTime == cars.Min(c => c.ComeTime));
+            return res;
+        }
+        Car FindFirstLeaveCar(List<Car> cars)
+        {
+            if (cars.Count == 0)
+            {
+                return null;
+            }
+            List<Car> tmp = cars.Where(car => car.LeaveTime != DateTime.MinValue).ToList();
+            if (tmp.Count == 0)
+            {
+                return null;
+            }
+            Car res = tmp.Find( car => car.LeaveTime == tmp.Min(c => c.LeaveTime));
+            return res;
         }
         private void ReCulcCharacteristics(double T, double lambda, double mu, int n, int m)
         {
@@ -652,13 +759,14 @@ namespace Diploma
                 int ID;
                 if (cbLeaveColumn.Text.Length > 0)          // якщо задано номер колонки то з неї виїжає машина яка приїхала першою, якщо не задано, то виїжає машина яка приїхала першою взагалі (на будь-яку колонку)
                 {
-                    int gdID = Convert.ToInt32(cbLeaveColumn.Text);
-                    SqlCommand cmd = new SqlCommand($"select id from servicing where id = (select MIN(id) from servicing where car_leave_time is null and gas_deliver_id = { gdID })", GlobalConnection.Connection);
+                    int gdID = GasStation.GasDeliverys[Convert.ToInt32(cbLeaveColumn.Text) - 1].ID;
+                    SqlCommand cmd = new SqlCommand($"select MIN(id) from servicing where car_leave_time is null and gas_deliver_id = { gdID }", GlobalConnection.Connection);
                     ID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 else
                 {
-                    SqlCommand cmd = new SqlCommand("select id from servicing where id = (select MIN(id) from servicing where car_leave_time is null)", GlobalConnection.Connection);
+                    //SqlCommand cmd = new SqlCommand("select id from servicing where id = (select MIN(id) from servicing where car_leave_time is null)", GlobalConnection.Connection);
+                    SqlCommand cmd = new SqlCommand("select MIN(id) from servicing where car_leave_time is null", GlobalConnection.Connection);
                     ID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
@@ -687,10 +795,12 @@ namespace Diploma
                     chartMain.Series[0].Points[i].AxisLabel = GasStation.GasDeliverys[i].Type + "-" + (i + 1);
                 }
 
+
+                RefreshDgvServicing();
+                ///////
+                //List<Car> cars = GetCars();
+                //ReculcParametersAndCharacteristicsManualAndShow(cars);
                 /////////
-                List<Car> cars = GetCars();
-                ReculcParametersAndCharacteristicsManual(cars);
-                ///////////
 
                 cbLeaveColumn.Text = "";
                 tbCapasity.Text = "";
@@ -707,12 +817,66 @@ namespace Diploma
         }
         private void butAnalisysAZS_Click(object sender, EventArgs e)
         {
+            if (dgvServicing.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Оберіть авто для аналізу");
+                return;
+            }
 
+
+            List<Car> cars = GetSelectedInDgvServicingCars();
+            
+            Form f = new FormAnalysis(GasStation, cars);
+            f.Show();
+        }
+        List<Car> GetSelectedInDgvServicingCars()
+        {
+            List<Car> cars = new List<Car>();
+            List<DateTime> data = new List<DateTime>();
+            for (int i = 0; i < dgvServicing.SelectedRows.Count; i++)
+            {
+                data.Add(DateTime.Parse(dgvServicing.SelectedRows[i].Cells["car_come_time"].Value.ToString()));
+            }
+
+            //string cmdText = "SELECT * FROM servicing WHERE car_come_time >= @start and car_come_time <= @end";
+            string cmdText = "SELECT * FROM servicing WHERE car_come_time >= @start and car_come_time <= @end";
+            SqlCommand cmd = new SqlCommand(cmdText, GlobalConnection.Connection);
+            cmd.Parameters.AddWithValue("@start", data.Last().ToString());
+            cmd.Parameters.AddWithValue("@end", data[0].ToString());
+            //cmd.Parameters.AddWithValue("@start", data.Last().ToShortDateString() + " " + data.Last().ToShortTimeString());
+            //cmd.Parameters.AddWithValue("@end", data[0].ToShortDateString() + " " + data[0].ToShortTimeString());
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                Car c = new Car(Convert.ToInt32(ds.Tables[0].Rows[i]["car_id"]));
+                c.ComeTime = DateTime.Parse(ds.Tables[0].Rows[i]["car_come_time"].ToString());
+                if (ds.Tables[0].Rows[i]["car_leave_time"].ToString() != "")
+                {
+                    c.LeaveTime = DateTime.Parse(ds.Tables[0].Rows[i]["car_leave_time"].ToString());
+                }
+                else
+                {
+                    c.LeaveTime = DateTime.MinValue;
+                }
+                c.GD = new GasDeliver(Convert.ToInt32(ds.Tables[0].Rows[i]["gas_deliver_id"]));
+                cars.Add(c);
+            }
+            return cars;
         }
         private void butShowServicing_Click(object sender, EventArgs e)
         {
             FormShowServicing f = new FormShowServicing(GasStation);
             f.Show();
+        }
+        private void dgvServicing_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            int id = Convert.ToInt32(e.Row.Cells["id"].Value);
+            SqlCommand cmd = new SqlCommand("delete from servicing where id = " + id, GlobalConnection.Connection);
+            cmd.ExecuteNonQuery();
+
+
         }
     }
 

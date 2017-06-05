@@ -14,8 +14,8 @@ namespace Diploma
     public partial class FormManageGS : Form
     {
         public GasStation GasStation;
-
         private int selectedGSID;
+
         public FormManageGS(ref GasStation gs)
         {
             InitializeComponent();
@@ -48,6 +48,7 @@ namespace Diploma
         }
         private void SetDgvGasDeliverColumns()
         {
+            dgvGasDeliveries.Columns.Add("", "");
             dgvGasDeliveries.Columns.Add("", "");
             dgvGasDeliveries.Columns.Add("", "");
 
@@ -229,6 +230,9 @@ namespace Diploma
                         dgvGasDeliveries.Rows[e.RowIndex].Cells[1].Value.ToString() :
                         "",
                 selectedGSID,
+                dgvGasDeliveries.Rows[e.RowIndex].Cells[3].Value != null ?
+                        Convert.ToInt32(dgvGasDeliveries.Rows[e.RowIndex].Cells[1].Value) :
+                        -1,
                 Convert.ToInt32(dgvGasDeliveries.Rows[e.RowIndex].Cells[0].Value));
         }
         //private void dgvStaffCellEndEdit(object sender, DataGridViewCellEventArgs e)

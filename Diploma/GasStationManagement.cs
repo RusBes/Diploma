@@ -10,6 +10,7 @@ namespace Diploma
     {
         public int ID { get; set; }
         public List<GasDeliver> GasDeliverys { get; set; }
+        public int MaxQueueCount { get; set; }
         //public List<Employee> Employees { get; set; }
         public string Location { get; set; }
         public string Brand { get; set; }
@@ -21,6 +22,7 @@ namespace Diploma
             Location = loc;
             Brand = brand;
         }
+
 
     }
 

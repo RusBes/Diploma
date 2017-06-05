@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.butCarLeave = new System.Windows.Forms.Button();
             this.butCarCome = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -63,10 +63,12 @@
             this.lbTeorCharact = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.dgvServicing = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartMain)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartServicing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServicing)).BeginInit();
             this.SuspendLayout();
             // 
             // butCarLeave
@@ -203,17 +205,17 @@
             // 
             // chartMain
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartMain.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chartMain.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.chartMain.ChartAreas.Add(chartArea3);
+            legend4.Enabled = false;
+            legend4.Name = "Legend1";
+            this.chartMain.Legends.Add(legend4);
             this.chartMain.Location = new System.Drawing.Point(12, 161);
             this.chartMain.Name = "chartMain";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartMain.Series.Add(series1);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chartMain.Series.Add(series6);
             this.chartMain.Size = new System.Drawing.Size(343, 309);
             this.chartMain.TabIndex = 3;
             this.chartMain.Text = "chart1";
@@ -261,58 +263,59 @@
             // 
             // chartServicing
             // 
-            chartArea2.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea2.AxisX.Title = "t";
-            chartArea2.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
-            chartArea2.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
-            chartArea2.AxisY.Title = "n";
-            chartArea2.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
-            chartArea2.CursorX.Interval = 0.1D;
-            chartArea2.CursorX.IsUserEnabled = true;
-            chartArea2.CursorX.IsUserSelectionEnabled = true;
-            chartArea2.CursorY.Interval = 0.1D;
-            chartArea2.CursorY.IsUserEnabled = true;
-            chartArea2.CursorY.IsUserSelectionEnabled = true;
-            chartArea2.Name = "ChartArea1";
-            this.chartServicing.ChartAreas.Add(chartArea2);
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend2.Name = "Legend1";
-            legend3.Enabled = false;
-            legend3.Name = "Legend2";
-            this.chartServicing.Legends.Add(legend2);
-            this.chartServicing.Legends.Add(legend3);
+            chartArea4.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea4.AxisX.Title = "t";
+            chartArea4.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea4.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea4.AxisY.Title = "n";
+            chartArea4.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea4.CursorX.Interval = 0.1D;
+            chartArea4.CursorX.IsUserEnabled = true;
+            chartArea4.CursorX.IsUserSelectionEnabled = true;
+            chartArea4.CursorY.Interval = 0.1D;
+            chartArea4.CursorY.IsUserEnabled = true;
+            chartArea4.CursorY.IsUserSelectionEnabled = true;
+            chartArea4.Name = "ChartArea1";
+            this.chartServicing.ChartAreas.Add(chartArea4);
+            legend5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend5.Name = "Legend1";
+            legend6.Enabled = false;
+            legend6.Name = "Legend2";
+            this.chartServicing.Legends.Add(legend5);
+            this.chartServicing.Legends.Add(legend6);
             this.chartServicing.Location = new System.Drawing.Point(361, 27);
             this.chartServicing.Name = "chartServicing";
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.Lime;
-            series2.Legend = "Legend1";
-            series2.Name = "Обслуговування";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Black;
-            series3.Legend = "Legend1";
-            series3.Name = "Відмови";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.Red;
-            series4.Legend = "Legend1";
-            series4.Name = "Черга";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Color = System.Drawing.Color.Teal;
-            series5.Legend = "Legend1";
-            series5.Name = "Зайняті канали";
-            this.chartServicing.Series.Add(series2);
-            this.chartServicing.Series.Add(series3);
-            this.chartServicing.Series.Add(series4);
-            this.chartServicing.Series.Add(series5);
+            series7.BorderWidth = 2;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Color = System.Drawing.Color.Lime;
+            series7.Legend = "Legend1";
+            series7.Name = "Обслуговування";
+            series8.BorderWidth = 2;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Color = System.Drawing.Color.Black;
+            series8.Legend = "Legend1";
+            series8.Name = "Відмови";
+            series9.BorderWidth = 2;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Color = System.Drawing.Color.Red;
+            series9.Legend = "Legend1";
+            series9.Name = "Черга";
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Color = System.Drawing.Color.Teal;
+            series10.Legend = "Legend1";
+            series10.Name = "Зайняті канали";
+            this.chartServicing.Series.Add(series7);
+            this.chartServicing.Series.Add(series8);
+            this.chartServicing.Series.Add(series9);
+            this.chartServicing.Series.Add(series10);
             this.chartServicing.Size = new System.Drawing.Size(558, 286);
             this.chartServicing.TabIndex = 34;
             this.chartServicing.Text = "chart1";
+            this.chartServicing.Visible = false;
             // 
             // lbStatCharact
             // 
@@ -348,11 +351,23 @@
             this.label7.TabIndex = 38;
             this.label7.Text = "Теоретичні характеристики";
             // 
+            // dgvServicing
+            // 
+            this.dgvServicing.AllowUserToAddRows = false;
+            this.dgvServicing.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvServicing.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvServicing.Location = new System.Drawing.Point(361, 27);
+            this.dgvServicing.Name = "dgvServicing";
+            this.dgvServicing.Size = new System.Drawing.Size(558, 443);
+            this.dgvServicing.TabIndex = 39;
+            this.dgvServicing.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvServicing_UserDeletingRow);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(931, 482);
+            this.Controls.Add(this.dgvServicing);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lbTeorCharact);
@@ -373,6 +388,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartServicing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServicing)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -404,6 +420,7 @@
         private System.Windows.Forms.ListBox lbTeorCharact;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridView dgvServicing;
     }
 }
 

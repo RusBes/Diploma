@@ -102,7 +102,7 @@
             this.tbn.Name = "tbn";
             this.tbn.Size = new System.Drawing.Size(63, 20);
             this.tbn.TabIndex = 38;
-            this.tbn.Text = "3";
+            this.tbn.Text = "6";
             // 
             // tbLimTime
             // 
@@ -127,7 +127,7 @@
             this.tbLength.Name = "tbLength";
             this.tbLength.Size = new System.Drawing.Size(33, 20);
             this.tbLength.TabIndex = 34;
-            this.tbLength.Text = "2";
+            this.tbLength.Text = "5";
             // 
             // chart2
             // 
@@ -264,7 +264,7 @@
             this.tbMu.Name = "tbMu";
             this.tbMu.Size = new System.Drawing.Size(63, 20);
             this.tbMu.TabIndex = 27;
-            this.tbMu.Text = "20";
+            this.tbMu.Text = "400";
             // 
             // tbLambda
             // 
@@ -272,7 +272,7 @@
             this.tbLambda.Name = "tbLambda";
             this.tbLambda.Size = new System.Drawing.Size(63, 20);
             this.tbLambda.TabIndex = 26;
-            this.tbLambda.Text = "37";
+            this.tbLambda.Text = "70";
             // 
             // FormModeling
             // 

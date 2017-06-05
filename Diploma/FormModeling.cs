@@ -398,6 +398,10 @@ namespace Diploma
             }
 
             lbCharact.Items.Add("Теоретичні характеристики");
+            if (_p / n == 1)
+            {
+                _p += _p / 100;
+            }
             p0 += Math.Pow(_p, n) / fact * (_p / n - Math.Pow(_p / n, m + 1)) / (1 - _p / n);
             p0 = 1 / p0;
             double p_ost = Math.Pow(_p, n + m) / (Math.Pow(n, m) * fact) * p0;

@@ -92,19 +92,22 @@ namespace Diploma
             cmd.Parameters.Add(par3);
             return cmd.ExecuteNonQuery();
         }
-        public static int UpdateGasDeliver(string type, int GSID, int id)
+        public static int UpdateGasDeliver(string type, int GSID, int queueNum, int id)
         {
-            string query = "update gas_deliver set type = @type, gas_station_id = @gas_station_id where id = @id";
+            string query = "update gas_deliver set type = @type, gas_station_id = @gas_station_id, queue_number = @queue_number where id = @id";
             SqlParameter par1 = new SqlParameter("@type", SqlDbType.NVarChar);
             par1.Value = type.ToString();
             SqlParameter par2 = new SqlParameter("@gas_station_id", SqlDbType.Int);
             par2.Value = GSID;
-            SqlParameter par3 = new SqlParameter("@id", SqlDbType.Int);
-            par3.Value = id;
+            SqlParameter par3 = new SqlParameter("@queue_number", SqlDbType.Int);
+            par3.Value = queueNum;
+            SqlParameter par4 = new SqlParameter("@id", SqlDbType.Int);
+            par4.Value = id;
             SqlCommand cmd = new SqlCommand(query, Connection);
             cmd.Parameters.Add(par1);
             cmd.Parameters.Add(par2);
             cmd.Parameters.Add(par3);
+            cmd.Parameters.Add(par4);
             return cmd.ExecuteNonQuery();
         }
         public static int UpdateStaff(string fullName, string position, int GSID, int id)
@@ -137,16 +140,19 @@ namespace Diploma
             cmd.Parameters.Add(par2);
             return cmd.ExecuteNonQuery();
         }
-        public static int InsertGasDeliver(string type, int GSID)
+        public static int InsertGasDeliver(string type, int queue_num, int GSID)
         {
-            string query = "insert into gas_deliver(type, gas_station_id) values(@type, @gas_station_id)";
+            string query = "insert into gas_deliver(type, queue_number, gas_station_id) values(@type, @queue_number, @gas_station_id)";
             SqlParameter par1 = new SqlParameter("@type", SqlDbType.NVarChar);
             par1.Value = type.ToString();
-            SqlParameter par2 = new SqlParameter("@gas_station_id", SqlDbType.Int);
-            par2.Value = GSID;
+            SqlParameter par2 = new SqlParameter("@queue_number", SqlDbType.Int);
+            par2.Value = queue_num;
+            SqlParameter par3 = new SqlParameter("@gas_station_id", SqlDbType.Int);
+            par3.Value = GSID;
             SqlCommand cmd = new SqlCommand(query, Connection);
             cmd.Parameters.Add(par1);
             cmd.Parameters.Add(par2);
+            cmd.Parameters.Add(par3);
             return cmd.ExecuteNonQuery();
         }
         public static int InsertStaff(string fullName, string position, int GSID)
